@@ -1,16 +1,13 @@
+# Ignore inline messages which lay outside a diff's range
+# github.dismiss_out_of_range_messages
+
+# Check PR
+warn("PRの説明が短すぎるよ！レビュアーが見て分かる説明を書いてね！ :cry:") if github.pr_body.length < 100
+
 # Warn when there is a big PR
-warn("Big PR, try to keep changes smaller if you can :cry:") if git.lines_of_code > 1000
+warn("PRのサイズが大きすぎるよ！可能であれば分割してね! :cry:") if git.lines_of_code > 1000
 
-# Notify important file changes
-important_files = %w(Podfile.lock Gemfile.lock Cartfile.resolved project.yml)
-
-git.modified_files.map do |file|
-  if important_files.include?(file)
-    message "#{file} has changed. If you agree, ignore this comment."
-  end
-end
-
-# Swiftlint
-github.dismiss_out_of_range_messages
+# Check and comment on swiftlint only in the range corrected by PR
+swiftlint.verbose = true
 swiftlint.config_file = '.swiftlint.yml'
 swiftlint.lint_files inline_mode: true
