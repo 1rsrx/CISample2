@@ -10,9 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Setup Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
-            ruby-version: '2.x'
+            ruby-version: '2.6.10'
             architecture: 'x64'
       - name: Setup Danger
         run: |
